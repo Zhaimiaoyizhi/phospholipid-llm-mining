@@ -9,3 +9,6 @@ data/intermediate/
 results/
 *.sqlite
 *.db
+tmp/
+docs/project_report.html
+dist/
