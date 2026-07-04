@@ -2,7 +2,7 @@
 
 作者：翟淼
 
-GitHub 仓库链接：待推送至 GitHub 后填写
+GitHub 仓库链接：https://github.com/Zhaimiaoyizhi/phospholipid-llm-mining
 
 ## 中文摘要
 
@@ -199,4 +199,3 @@ results/phospholipid_protein.sqlite
 results/extraction_summary.json
 results/raw_llm_outputs/
 ```
-
