@@ -1,0 +1,31 @@
+project:
+  name: phospholipid_llm_mining
+  prompt_version: v0.1.0
+
+paths:
+  pmids: data/input/pmids.txt
+  articles_csv: data/intermediate/articles_pubmed.csv
+  prepared_articles: data/intermediate/prepared_articles.jsonl
+  raw_llm_dir: results/raw_llm_outputs
+  llm_raw_jsonl: results/llm_extracted_raw.jsonl
+  normalized_csv: results/extracted_records.csv
+  failed_csv: results/failed_records.csv
+  sqlite_db: results/phospholipid_protein.sqlite
+  summary_json: results/extraction_summary.json
+
+pubmed:
+  email: ""
+  tool: phospholipid-llm-mining
+  batch_size: 20
+  timeout_seconds: 30
+
+llm:
+  mode: api
+  provider: openai_compatible
+  base_url: "${LLM_BASE_URL:-https://api.openai.com/v1}"
+  api_key_env: LLM_API_KEY
+  model: "${LLM_MODEL:-gpt-4.1-mini}"
+  temperature: 0
+  max_retries: 2
+  timeout_seconds: 60
+  mock_dir: examples/mock_llm_outputs

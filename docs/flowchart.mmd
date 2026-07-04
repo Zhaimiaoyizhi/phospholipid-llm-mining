@@ -1,0 +1,20 @@
+flowchart TD
+    A["data/input/pmids.txt<br/>PMID seed list"] --> B["fetch_pubmed<br/>Download PubMed metadata and abstracts"]
+    B --> C["data/intermediate/articles_pubmed.csv"]
+    C --> D["prepare_inputs<br/>Validate and convert to JSONL"]
+    D --> E["data/intermediate/prepared_articles.jsonl"]
+    E --> F["llm_extract<br/>OpenAI-compatible API extraction"]
+    F --> G["results/raw_llm_outputs/*.json<br/>Raw response audit trail"]
+    F --> H["results/llm_extracted_raw.jsonl"]
+    H --> I["normalize_records<br/>Schema validation and controlled vocabulary"]
+    I --> J["results/extracted_records.csv"]
+    I --> K["results/failed_records.csv"]
+    C --> L["build_database"]
+    H --> L
+    J --> L
+    L --> M["results/phospholipid_protein.sqlite"]
+    C --> N["make_summary"]
+    J --> N
+    K --> N
+    M --> N
+    N --> O["results/extraction_summary.json"]

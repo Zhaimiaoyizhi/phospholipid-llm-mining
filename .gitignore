@@ -1,0 +1,11 @@
+.env
+__pycache__/
+*.pyc
+.snakemake/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+data/intermediate/
+results/
+*.sqlite
+*.db

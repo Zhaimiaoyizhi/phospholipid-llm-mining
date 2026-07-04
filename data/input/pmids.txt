@@ -1,0 +1,12 @@
+# Seed PMIDs selected from PubMed searches on phosphoinositide/phospholipid regulation of proteins.
+# Lines beginning with # are ignored by scripts/fetch_pubmed.py.
+40172963
+31683182
+28358046
+29020060
+21971045
+29848549
+34267198
+36071159
+37175801
+23270460
