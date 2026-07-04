@@ -101,6 +101,25 @@ def write_json(path: Path, payload: dict[str, Any]) -> None:
     path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
 
 
+def reuse_cached_response(raw_path: Path) -> tuple[dict[str, Any], list[Any]] | None:
+    if not raw_path.exists():
+        return None
+    try:
+        raw_payload = json.loads(raw_path.read_text(encoding="utf-8"))
+        if raw_payload.get("parse_status") != "success":
+            return None
+        response = raw_payload.get("response")
+        if not isinstance(response, dict):
+            return None
+        records = extract_json_text(content_from_response(response))
+        if not isinstance(records, list):
+            return None
+        raw_payload["cache_status"] = "reused"
+        return raw_payload, records
+    except Exception:
+        return None
+
+
 def main(argv: list[str] | None = None) -> int:
     load_dotenv()
 
@@ -117,6 +136,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--max-retries", type=int, default=2)
     parser.add_argument("--timeout", type=int, default=60)
     parser.add_argument("--mock-dir", type=Path, default=Path("examples/mock_llm_outputs"))
+    parser.add_argument("--no-reuse-raw", action="store_true")
     args = parser.parse_args(argv)
 
     articles = read_jsonl(args.input)
@@ -142,6 +162,24 @@ def main(argv: list[str] | None = None) -> int:
             error_message = ""
             parse_status = "success"
             records: Any = []
+            cached = None if args.no_reuse_raw else reuse_cached_response(raw_path)
+
+            if cached is not None:
+                raw_payload, records = cached
+                out.write(
+                    json.dumps(
+                        {
+                            "pmid": pmid,
+                            "parse_status": "success",
+                            "error_message": "",
+                            "raw_output_path": str(raw_path).replace("\\", "/"),
+                            "records": records,
+                        },
+                        ensure_ascii=False,
+                    )
+                    + "\n"
+                )
+                continue
 
             for attempt in range(args.max_retries + 1):
                 try:
@@ -176,6 +214,7 @@ def main(argv: list[str] | None = None) -> int:
                 "model": model,
                 "parse_status": parse_status,
                 "error_message": error_message,
+                "cache_status": "fresh",
                 "response": response,
             }
             write_json(raw_path, raw_payload)

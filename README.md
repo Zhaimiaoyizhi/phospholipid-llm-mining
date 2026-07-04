@@ -72,6 +72,56 @@ LLM_MODEL=deepseek-v4-flash
 
 ## 一键运行
 
+### 双击向导模式（推荐验收方式）
+
+Windows 用户可以直接双击：
+
+```text
+run_project.bat
+```
+
+程序会逐步引导填写：
+
+```text
+PMID 列表文件路径
+输出目录路径
+运行模式：append 或 overwrite
+```
+
+第一次运行时，脚本会自动检查：
+
+- 是否安装 Conda；缺失时提示下载安装 Miniforge
+- 是否存在 `phospholipid-llm-mining` 环境；缺失时根据 `environment.yml` 创建
+- 是否存在 `.env` 和 LLM 配置；缺失时引导填写 API key、base URL、模型名
+
+运行完成后，结果会输出到用户指定目录：
+
+```text
+用户输出目录/
+├── input/      # 本次使用的 PMID 列表
+├── cache/      # PubMed 元数据、LLM 原始输出缓存
+├── results/    # CSV、SQLite、summary 等主结果
+└── logs/       # Snakemake 运行日志
+```
+
+`append` 模式会保留 `cache/raw_llm_outputs/{pmid}.json`，已成功抽取过的 PMID 会复用缓存，避免重复调用 LLM API。`overwrite` 模式会清空该输出目录下旧的 `cache/`、`results/`、`logs/` 后重新运行。
+
+### 命令行模式
+
+也可以直接指定参数：
+
+```powershell
+.\run_project.ps1 -PmidsFile "D:\path\pmids.txt" -OutDir "D:\path\output" -Mode append
+```
+
+或强制覆盖：
+
+```powershell
+.\run_project.ps1 -PmidsFile "D:\path\pmids.txt" -OutDir "D:\path\output" -Mode overwrite
+```
+
+### Snakemake 原生命令
+
 ```bash
 snakemake --cores 1
 ```
