@@ -1,13 +1,13 @@
 name: phospholipid-llm-mining
 channels:
+  - defaults
   - conda-forge
-  - bioconda
 dependencies:
   - python=3.11
-  - snakemake-minimal>=8
-  - pandas>=2.2
-  - requests>=2.31
-  - python-dotenv>=1.0
-  - pyyaml>=6.0
-  - pytest>=8
+  - pyyaml[version='>=6.0']
   - pip
+  - requests[version='>=2.31']
+  - pandas[version='>=2.2']
+  - python-dotenv[version='>=1.0']
+  - snakemake-minimal[version='>=8']
+  - pytest[version='>=8']

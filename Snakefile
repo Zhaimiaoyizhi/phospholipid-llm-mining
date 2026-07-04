@@ -50,8 +50,8 @@ rule llm_extract:
         llm_raw=PATHS["llm_raw_jsonl"]
     params:
         raw_dir=PATHS["raw_llm_dir"],
-        base_url=os.environ.get("LLM_BASE_URL", "https://api.openai.com/v1"),
-        model=os.environ.get("LLM_MODEL", "gpt-4.1-mini"),
+        base_url=LLM["base_url"],
+        model=LLM["model"],
         mode=LLM["mode"],
         api_key_env=LLM["api_key_env"],
         temperature=LLM["temperature"],
@@ -99,7 +99,7 @@ rule build_database:
         sqlite_db=PATHS["sqlite_db"]
     params:
         provider=LLM["provider"],
-        model=os.environ.get("LLM_MODEL", "gpt-4.1-mini"),
+        model=LLM["model"],
         prompt_version=config["project"]["prompt_version"],
         temperature=LLM["temperature"],
         mode=LLM["mode"]

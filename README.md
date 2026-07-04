@@ -64,11 +64,11 @@ cp .env.example .env
 
 ```env
 LLM_API_KEY=your_api_key
-LLM_BASE_URL=https://api.openai.com/v1
-LLM_MODEL=gpt-4.1-mini
+LLM_BASE_URL=https://api.deepseek.com
+LLM_MODEL=deepseek-v4-flash
 ```
 
-也可以使用 DeepSeek、Kimi、通义千问等兼容 OpenAI Chat Completions 的服务，只需替换 `LLM_BASE_URL` 和 `LLM_MODEL`。
+也可以使用 OpenAI、Kimi、通义千问等兼容 OpenAI Chat Completions 的服务，只需替换 `LLM_BASE_URL` 和 `LLM_MODEL`。
 
 ## 一键运行
 
