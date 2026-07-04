@@ -1,6 +1,6 @@
 # 基于 LLM 的受磷脂调控蛋白质论文信息挖掘与数据库建立
 
-作者：请填写姓名、学号与班级
+作者：熊一川（学号：524111910027）
 
 GitHub 仓库：[https://github.com/Zhaimiaoyizhi/phospholipid-llm-mining](https://github.com/Zhaimiaoyizhi/phospholipid-llm-mining)
 
